@@ -1,31 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
-} from 'react-router-dom';
+import { useState } from "react";
 
-function App() {
+const ToDo = ({ value }) => {
+  return <div>{value.todo}</div>;
+};
+
+export default function App() {
+  const [input, setToDo] = useState({
+    todo: "",
+    isCompleted: false
+  });
+
+  const [todoList, updateToDosList] = useState([]);
+
+  const add = () => {
+    if (input.todo) {
+      updateToDosList([...todoList, input]);
+      setToDo({
+        todo: "",
+        isCompleted: false
+      });
+    }
+  };
+
   return (
     <div className="App">
-      {/* <header className="App-header"> */}
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      {/* </header> */}
+      <h1>React Todo Assignment</h1>
+      <div>
+        <input
+          type="text"
+          value={input.todo}
+          placeholder="enter"
+          onChange={(e) =>
+            setToDo({
+              todo: e.target.value,
+              isCompleted: false
+            })
+          }
+        />
+        <button onClick={add}>Submit</button>
+      </div>
+      <ul>
+        {todoList.length > 0 &&
+          todoList.map((value) => {
+            return <ToDo value={value} />;
+          })}
+      </ul>
     </div>
   );
 }
-
-export default App;
